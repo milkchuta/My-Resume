@@ -133,7 +133,7 @@ header.site{
   overflow: hidden;
 }
 .cover-bg{
-  --cover-image: url('Assests/cover.jpg');
+  --cover-image: url('assests/cover.jpg');
   height: var(--cover-height);
   background:
     linear-gradient(200deg, #00000031, #0000004b 60%, #00000031),
