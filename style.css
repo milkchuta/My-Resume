@@ -1,0 +1,328 @@
+:root {
+  /* โทนสีพาสเทล */
+  --bg:#fdfdfd;
+  --card:#ffffffcc;
+  --card-stroke:#e5e7eb;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --accent1:#f9a8d4; /* pink pastel */
+  --accent2:#c4b5fd; /* lavender */
+  --accent3:#93c5fd; /* sky pastel */
+
+  /* UI */
+  --radius:20px;
+  --shadow:0 6px 20px rgba(0,0,0,.08);
+  --container:1200px;
+
+  /* ขนาดโปรไฟล์ + ปก */
+  --avatar-size: clamp(160px, 28vw, 240px);
+  --avatar-ring: 8px;
+  --cover-height: clamp(150px, 22vw, 220px); /* ลดสูงลงให้พื้นขาวขึ้น */
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:"Prompt",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(1000px 600px at 80% -10%, #e0e7ff 0%, #fff 70%),
+    radial-gradient(900px 500px at 0% 10%, #ffe4e6 0%, #fff 65%),
+    var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
+.muted{color:var(--muted)}
+
+/* ===== Layout / Header ===== */
+.container{max-width:var(--container); margin-inline:auto; padding-inline:24px}
+.section-pad{padding:60px 0}
+
+header.site{
+  position:sticky; top:0; z-index:40;
+  backdrop-filter:blur(10px);
+  background:linear-gradient(180deg, #ffffffcc, #ffffff00);
+  border-bottom:1px solid #e5e7eb;
+}
+.nav{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; padding:14px 0;
+}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text)}
+.badge{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  font-weight:800; letter-spacing:.3px; font-size:20px;
+}
+
+/* ---- Nav underline bar ---- */
+.nav a{
+  position: relative;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: color .2s ease;
+}
+.nav a:hover,
+.nav a:focus-visible,
+.nav a.is-active{
+  color: var(--text);
+  background: transparent;
+}
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:10px; right:10px; bottom:-10px;
+  height:3px;
+  border-radius:999px;
+  background: linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+  pointer-events: none;
+  opacity:.9;
+}
+.nav a:hover::after,
+.nav a:focus-visible::after,
+.nav a.is-active::after,
+.nav a[aria-current="page"]::after{
+  transform: scaleX(1);
+}
+
+/* ===== Hero ===== */
+.hero{position:relative; isolation:isolate; padding:70px 0 24px; text-align:center}
+.hero h1{
+  font-size:clamp(28px, 6vw, 56px);
+  line-height:1.1; margin:10px 0;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  font-weight:800;
+}
+.hero p{color:var(--muted); max-width:800px; margin:0 auto 24px}
+.wave{position:relative; margin-top:28px}
+.wave svg{display:block; width:100%; height:auto}
+.wave path{fill:#f9fafb}
+
+/* ปุ่ม (เผื่อใช้ส่วนอื่น) */
+.cta{display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:10px}
+.btn{
+  --pad:12px 18px;
+  padding:var(--pad); border-radius:999px; border:1px solid #e5e7eb;
+  background:#ffffff; color:var(--text); text-decoration:none; font-weight:700;
+  box-shadow:var(--shadow);
+  transition:all .25s;
+}
+.btn:hover{background:#f9fafb}
+.btn.primary{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));
+  border:none; color:white;
+}
+.btn.primary:hover{filter:brightness(1.05)}
+
+/* ===== Profile Cover (ข้อความลงพื้นขาว + ขยับพื้นขาวขึ้น) ===== */
+.profile-cover { padding: 18px 0 8px; }
+
+.cover-box{
+  position: relative;
+  border-radius: 28px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.cover-bg{
+  --cover-image: url('Assests/cover.jpg');
+  height: var(--cover-height);
+  background:
+    linear-gradient(200deg, #00000031, #0000004b 60%, #00000031),
+    var(--cover-image);
+  background-size: cover;
+  background-position: center;
+  border-radius: 28px 28px 0 0;
+  position: relative;
+  z-index: 0;
+  filter: saturate(105%);
+}
+
+/* grid เพื่อให้ข้อความอยู่บนพื้นขาวแน่ ๆ */
+.cover-content{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--avatar-size) 1fr;
+  align-items: end;
+  column-gap: 22px;
+  padding: 0 24px 24px;
+  margin-top: -60px; /* ลดค่าตัวนี้ถ้าอยากให้พื้นขาวสูงขึ้นอีก */
+}
+
+/* รูปโปรไฟล์ */
+.avatar-wrap{
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  border: var(--avatar-ring) solid #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,.10);
+  background: #fff;
+  flex: 0 0 auto;
+}
+.avatar-wrap img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ข้อความด้านขวา */
+.identity{ min-width: 0; }
+.name{
+  margin: 0 0 6px;
+  font-size: clamp(28px, 3.6vw, 40px);
+  font-weight: 800;
+  letter-spacing: .2px;
+  line-height: 1.15;
+  color: #0f172a;
+}
+.role{ margin: 0 0 6px; color: var(--muted); font-size: 16px }
+.identity .edu{
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.meta{ display:flex; flex-wrap:wrap; gap:10px }
+.pill{
+  display:inline-block;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+.pill.available{
+  background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+  color:#fff; border: none;
+}
+
+/* ===== Skills / Features ===== */
+.features{background:#f9fafb; padding:60px 0}
+.grid{display:grid; gap:18px; grid-template-columns:repeat(12,1fr)}
+.card{
+  grid-column:span 4; min-height:180px;
+  background:linear-gradient(#ffffff,#ffffff) padding-box,
+             linear-gradient(135deg,var(--accent1),var(--accent2),var(--accent3)) border-box;
+  border:1px solid transparent; border-radius:var(--radius);
+  box-shadow:var(--shadow); overflow:hidden; position:relative;
+}
+.card .inner{padding:22px}
+.eyebrow{font-size:12px; letter-spacing:.2em; color:#9ca3af; text-transform:uppercase}
+.card h3{margin:6px 0 8px; font-size:22px}
+.card p{color:var(--muted); margin:0}
+.card:hover::after{
+  content:""; position:absolute; inset:-2px;
+  background:conic-gradient(from 180deg, var(--accent1), var(--accent2), var(--accent3), var(--accent1));
+  filter:blur(16px) opacity(.15); z-index:-1;
+}
+
+/* ===== Portfolio ===== */
+.showcase{padding:60px 0}
+.section-title{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px}
+.section-title h2{margin:0; font-size:clamp(22px,4.5vw,36px)}
+.mline{height:1px; background:#e5e7eb; flex:1}
+
+.gallery{display:grid; gap:16px; grid-template-columns:repeat(12,1fr)}
+.tile{
+  grid-column:span 4; aspect-ratio:16/10; border-radius:18px; overflow:hidden; position:relative;
+  background:#f3f4f6; border:1px solid #e5e7eb; box-shadow:var(--shadow);
+}
+.tile img{width:100%; height:100%; object-fit:cover; display:block; transform:scale(1.02); transition:transform .5s}
+.tile:hover img{transform:scale(1.06)}
+.tag{
+  position:absolute; left:10px; top:10px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700;
+  background:#ffffffcc; color:#374151; border:1px solid #e5e7eb; backdrop-filter:blur(6px);
+}
+
+/* ==== Timeline (Educations) ==== */
+.timeline{
+  list-style:none;
+  margin: 6px 0 0;
+  padding: 0 0 0 10px;
+  position: relative;
+}
+.timeline::before{
+  content:"";
+  position:absolute;
+  left: 20px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background:#e5e7eb;
+}
+.timeline li{
+  position: relative;
+  padding: 16px 0 16px 44px;
+}
+.timeline li .dot{
+  position:absolute;
+  left: 12px;
+  top: 24px;
+  width:16px; height:16px; border-radius:999px;
+  background: linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));
+  box-shadow: 0 0 0 4px #fff;
+  border: 1px solid #e5e7eb;
+}
+.timeline .row{
+  display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+}
+.timeline .when{
+  font-weight:700; color:#374151;
+  background:#f3f4f6; border:1px solid #e5e7eb;
+  border-radius:999px; padding:4px 10px; font-size:12px;
+}
+.timeline .what{
+  margin:0; font-size:18px;
+}
+.timeline .what small{ font-weight:600; color:var(--muted); }
+.timeline .where{
+  margin:4px 0 0; color:var(--muted);
+}
+
+/* มือถือ */
+@media (max-width: 640px){
+  .timeline li{ padding-left:42px }
+  .timeline::before{ left:18px }
+  .timeline li .dot{ left:10px }
+}
+
+/* ===== Footer ===== */
+footer{padding:30px 0 60px; color:#6b7280}
+.links{display:flex; gap:14px; flex-wrap:wrap}
+.links a{color:#6b7280; text-decoration:none}
+.links a:hover{color:#374151}
+
+/* ===== Responsive ===== */
+@media (max-width:1024px){
+  .card{grid-column:span 6}
+  .tile{grid-column:span 6}
+}
+@media (max-width:800px){
+  :root{ --avatar-size: clamp(140px, 36vw, 200px) }
+}
+@media (max-width:640px){
+  .nav .hide-sm{display:none}
+  .card,.tile{grid-column:span 12}
+  .cover-content{
+    grid-template-columns: 1fr;  /* เรียงลงบนจอเล็ก */
+    align-items: start;
+    gap: 14px;
+    margin-top: -20px;
+    padding: 0 16px 18px;
+  }
+  .name{ font-size: clamp(24px, 6vw, 32px) }
+}
+
+/* ===== Motion Reduce ===== */
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important; transition:none!important}
+  .nav a::after{transition:none}
+}
